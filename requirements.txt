@@ -1,0 +1,12 @@
+requests
+beautifulsoup4
+tqdm
+numpy
+gensim
+pyvi
+pyyaml
+munch
+pandas
+matplotlib
+scikit-learn
+tensorflow

@@ -1,0 +1,11 @@
+# update config: 17-05-2023
+
+---
+# dev environment
+version : '1.0'
+stopwords_path : "configs/vietnamese-stopwords-dash.txt"
+label_encoder_path : 'models/models_v1.0/label_encoder.pkl'
+
+datapath :
+  train : 'datasets/preprocessed/train.txt'
+  test : 'datasets/preprocessed/test.txt'
