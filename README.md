@@ -62,7 +62,7 @@ Các label dự báo bao gồm: _**Stock market**_, _**International news**_, _*
 
 ### Project workflow
 
-![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/Projectworkflow.png?raw=true)
+![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/9095155bc50394693bd6081f079f604e6e7e4e6a/outputs/figures/Projectworkflow.png?raw=true)
 
 ### Khai phá dữ liệu
 
