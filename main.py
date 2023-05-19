@@ -1,4 +1,4 @@
-from helper.utils import get_title
+from helper.utils import LinkInfo
 from helper.cfg import Config
 from helper.utils import Mylog
 from helper.modeling import Ensemble
@@ -14,13 +14,17 @@ def process():
     clear()
     print("Go to https://vietnambiz.vn \n")
     while True:
-        url = input("Paste a link to a news article or \"Enter\" to end program! ")
+        url = input("Paste a link to a news article or \"Enter\" to end program: ")
         if url == '':
             break
-        title = get_title(url)
-        pred = models.ensemble_predict(title)[0]
-        print(f"\"{title}\" ---> {pred}")
-        logger.info(f"{url} | {title} | {pred}")
+        title, content = LinkInfo(url).get_link()
+        split_content = content.split(".")
+        title_pred_proba = models.ensemble_predict_proba(title)
+        content_pred_proba = models.ensemble_predict_proba(split_content)
+        pred_prob = ((title_pred_proba[0] + content_pred_proba.mean(axis=0)) / 2)
+        prediction = models.ensemble_pred_classname(pred_prob)
+        print(f"\"{title}\" ---> {prediction}")
+        logger.info(f"{url} | {title} | {prediction}")
         print("_" * 80)
 
 

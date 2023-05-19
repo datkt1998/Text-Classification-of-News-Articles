@@ -3,17 +3,24 @@ from bs4 import BeautifulSoup
 
 import os
 import logging
-from datetime import datetime
 
 
-def get_title(url):
-    try:
-        r = requests.get(url)
-        soup = BeautifulSoup(r.text, "html.parser")
-        title = soup.find_all("title")[0].text.strip()
-        return title
-    except Exception as e:
-        print(e)
+class LinkInfo:
+
+    def __init__(self, url):
+        self.url = url
+
+    def get_link(self):
+        try:
+            r = requests.get(self.url)
+            soup = BeautifulSoup(r.text, "html.parser")
+            title = soup.find_all("title")[0].text.strip()
+            content = soup.find_all('meta', {'id': 'metaDes', 'name': 'description'})[
+                0]['content'].strip()
+            return title, content
+        except Exception as e:
+            print(e)
+            return None, None
 
 
 class Mylog:
