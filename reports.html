@@ -1,0 +1,273 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body><h1 id="text-classification-of-news-articles">Text Classification of News Articles</h1>
+<p><strong>Mô tả:</strong> Project xây dựng mô hình phân loại bài báo theo chủ đề khi nhận được link ( phạm vi <a href="https://vietnambiz.vn">https://vietnambiz.vn</a> ).</p>
+<hr>
+<h2 id="-c-i-t-th-vi-n">🚀 Cài đặt thư viện</h2>
+<p>Thực hiện cài đặt các packages trong <code>requirements.txt</code> thông qua cmd:</p>
+<pre><code class="lang-bash">pip <span class="hljs-keyword">install</span> -r requirements.txt
+</code></pre>
+<hr>
+<h2 id="-demo">✨ Demo</h2>
+<p>Thực hiện run file <code>main.py</code> thông qua cmd:</p>
+<pre><code class="lang-bash"><span class="hljs-keyword">python</span> main.<span class="hljs-keyword">py</span>
+</code></pre>
+<p>Copy link bài báo bất kỳ từ nguồn <a href="https://vietnambiz.vn">https://vietnambiz.vn</a> và paste vào tool, sau đó <strong><code>Enter</code></strong> để lấy nhãn dự báo. Ngoài ra, trình ghi log sẽ ghi vào file <code>log_prediction.log</code>.</p>
+<p align="center">
+  <img width="700" align="center" src="https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/demo.gif?raw=true" alt="demo"/>
+</p>
+
+<hr>
+<h2 id="c-u-tr-c-th-m-c">Cấu trúc thư mục</h2>
+<pre><code class="lang-bash">.
+├── code_in_dev.ipynb                                <span class="hljs-comment"># notebook chạy workflow trong việc build model</span>
+├── configs                                          <span class="hljs-comment"># thư mục chứa các config của project</span>
+│         ├── cfg.yaml                                   <span class="hljs-comment"># file config của project</span>
+│         └── vietnamese-stopwords-dash.txt              <span class="hljs-comment"># file tổng hợp stopwords tiếng việt</span>
+├── datasets                                         <span class="hljs-comment"># thư mục chứa datasets</span>
+│         ├── preprocessed                               <span class="hljs-comment"># thư mục chứa datasets đã qua preprocessing</span>
+│         └── raw                                        <span class="hljs-comment"># thư mục chứa raw-datasets</span>
+├── helper                                           <span class="hljs-comment"># thư mục helper chứa các function của project</span>
+│         ├── cfg.py                                     <span class="hljs-comment"># load dữ liệu configs</span>
+│         ├── modeling.py                                <span class="hljs-comment"># models </span>
+│         ├── preprocessing.py                           <span class="hljs-comment"># hàm preprocessing</span>
+│         └── utils.py                                   <span class="hljs-comment"># hàm bổ sung</span>
+├── log_prediction.<span class="hljs-built_in">log</span>                               <span class="hljs-comment"># ghi log dữ liệu predictions</span>
+├── main.py                                          <span class="hljs-comment"># script python chạy tool</span>
+├── models                                           <span class="hljs-comment"># thư mục chứa final models theo version</span>
+│         └── models_v1<span class="hljs-number">.0</span>                                <span class="hljs-comment"># final models version 1.0</span>
+├── outputs                                          <span class="hljs-comment"># thư mục chứa các output trong quá trình phân tích và xây dựng model</span>
+│         ├── figures                                    <span class="hljs-comment"># thư mục chứa images output</span>
+│         ├── models                                     <span class="hljs-comment"># thư mục chứa các experimental model</span>
+│         ├── reports                                    <span class="hljs-comment"># thư mục chứa reports</span>
+│         └── results                                    <span class="hljs-comment"># thư mục chứa results</span>
+├── references                                       <span class="hljs-comment"># thư mục chứa tài liệu có liên quan</span>
+└── requirements.txt                                 <span class="hljs-comment"># file yêu cầu cài đặt packages cần thiết</span>
+</code></pre>
+<hr>
+<h2 id="m-t-d-n">Mô tả dự án</h2>
+<h3 id="m-c-ti-u-b-i-to-n">Mục tiêu bài toán</h3>
+<p>Xây dựng mô hình có khả năng phân loại bài báo thông qua việc phân tích title và content lấy được link bài báo từ nguồn <a href="https://vietnambiz.vn">https://vietnambiz.vn</a>.</p>
+<p>Các label dự báo bao gồm: <em><strong>Stock market</strong></em>, <em><strong>International news</strong></em>, <em><strong>Macro news</strong></em>.</p>
+<h3 id="project-workflow">Project workflow</h3>
+<p><img src="https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/Projectworkflow.png?raw=true" alt=""></p>
+<h3 id="khai-ph-d-li-u">Khai phá dữ liệu</h3>
+<p>Thông tin bộ dữ liệu raw:</p>
+<ul>
+<li><strong>Trường thông tin</strong>: <strong>text</strong> (text bài báo), <strong>category</strong> (label phân loại)</li>
+<li><strong>Size</strong>: 48048</li>
+</ul>
+<p>Tỷ trọng labels: <em>balance</em></p>
+<p align="center">
+  <img width="350" align="center" src="https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/check_balance_labels.png?raw=true" alt="demo"/>
+</p>
+
+<p>Phân chia <strong>train</strong>/<strong>test</strong>: tỷ trọng 0.85 / 0.15 <em>(stratify theo label)</em></p>
+<h3 id="quy-tr-nh-ti-n-x-l-d-li-u">Quy trình tiền xử lý dữ liệu</h3>
+<ul>
+<li><strong>Label</strong> được encode theo phương pháp <code>LabelEncoder</code> </li>
+<li><strong>Data</strong> là text tiếng việt được chuẩn hoá theo workflow:</li>
+</ul>
+<p><img src="https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/preprocessing_workflow.png?raw=true" alt=""></p>
+<h3 id="x-y-d-ng-v-l-a-ch-n-m-h-nh">Xây dựng và lựa chọn mô hình</h3>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Models</th>
+<th>Ưu điểm</th>
+<th>Nhược điểm</th>
+<th>Accuracy</th>
+<th>Lựa chọn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>TF-IDF vectorization + Multinomial Naive Bayes</td>
+<td>Yêu cầu lượng trainset nhỏ để ước lượng, khả năng train nhanh</td>
+<td>Khả năng dự báo không tốt và xác suất phân bố tuân theo các giả định về hình dạng của phân bố dữ liệu, cũng như phải update liên tục</td>
+<td>~ 83%</td>
+<td>Không</td>
+</tr>
+<tr>
+<td>2</td>
+<td>TF-IDF vectorization + Logistic Regression</td>
+<td>Trích lọc được các đặc trưng quan trọng nếu tunning và lựa chọn features hợp lý</td>
+<td>Không phù hợp với training dữ liệu real-time hoặc dữ liệu lớn, không học được ngữ cảnh của text.</td>
+<td>~ 90%</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>3</td>
+<td>TF-IDF vectorization + Support Vector Machine Classification</td>
+<td>Kết quả dự đoán cao với những words trong vocabulary</td>
+<td>Không thích hợp với train dữ liệu lớn vì tốn thời gian tính toán ma trận từ vựng đa chiều, hoặc non-linear data</td>
+<td>~ 91%</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TF-IDF vectorization + RandomForest Classification</td>
+<td>Sử dụng cơ chế bagging tree-base model, giúp đánh giá nhiều yếu tố từ các submodel để đưa ra kết quả tổng thể.</td>
+<td>Cần nhiều thời gian tunning tham số và khó dự đoán những từ ít xuất hiện.</td>
+<td>~ 80%</td>
+<td>Không</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Neural Network Embeddings</td>
+<td>Học được ngữ cảnh của text nếu thiết lập memory trong từng node.</td>
+<td>Khó giải thích, cần thời gian training lâu và tối ưu kiến trúc mạng neural</td>
+<td>~ 89%</td>
+<td>Có</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Model pipeline:</strong> Sử dụng ensemble 3 model được lựa chọn phía trên theo phương pháp trung bình xác suất dự đoán.</p>
+<h3 id="-nh-gi-hi-u-n-ng-ensemble-model-testset-">Đánh giá hiệu năng ensemble model (testset)</h3>
+<ol>
+<li><strong>Performance reports</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Classname</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>F1-score</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>International news</td>
+<td>91%</td>
+<td>93%</td>
+<td>92%</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>Macro news</td>
+<td>89%</td>
+<td>88%</td>
+<td>89%</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>Stock market</td>
+<td>91%</td>
+<td>90%</td>
+<td>90%</td>
+<td>90%</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Confusion matrix</strong></li>
+</ol>
+<p><img src="https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/cm.png?raw=true" alt=""></p>
+<ol>
+<li><strong>The most wrong predictions</strong></li>
+</ol>
+<p>Bảng thống kê những quan sát dự đoán sai với xác suất dự đoán cao nhất trong testset </p>
+<table>
+<thead>
+<tr>
+<th>no</th>
+<th>text</th>
+<th>label thực tế</th>
+<th>label dự đoán</th>
+<th>xác suất dự đoán</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>44 triệu người việt gia nhập tầng lớp trung lưu, 44% tiếp cận dịch vụ tài chính số, sếp dn phần mềm  ...</td>
+<td>stock_market</td>
+<td>macro_news</td>
+<td>99,92%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>áp dụng thí điểm ứng dụng vssid - bảo hiểm xã hội số đối với 10 tỉnh chịu ảnh hưởng bởi bão, lũ  ...</td>
+<td>stock_market</td>
+<td>macro_news</td>
+<td>99,92%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>gs. nguyễn mại: 1 tỷ usd vốn hàn quốc đầu tư vào vingroup là ví dụ cho thấy tính hấp dẫn của thị  ...</td>
+<td>stock_market</td>
+<td>macro_news</td>
+<td>99,64%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Giới siêu giàu Mỹ sẽ đổ xô vào bitcoin để tránh tăng thuế? Sau khi Tổng thống Biden đề xuất tăng  ...</td>
+<td>stock_market</td>
+<td>international_news</td>
+<td>99,24%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>tỷ giá usd hôm nay 30/12: đà giảm chậm lại khi thượng viện mỹ trì hoãn việc gia tăng gói kích ...</td>
+<td>stock_market</td>
+<td>international_news</td>
+<td>99,24%</td>
+</tr>
+<tr>
+<td>6</td>
+<td>thị trường ngoại hối hôm nay (15/5): usd tăng cao khi khả năng cắt giảm lãi suất của mỹ giảm ...</td>
+<td>stock_market</td>
+<td>international_news</td>
+<td>99,16%</td>
+</tr>
+<tr>
+<td>7</td>
+<td>chủ tịch agribank làm chủ tịch hiệp hội ngân hàng việt nam Hiệp hội Ngân hàng Việt Nam vừa có ...</td>
+<td>stock_market</td>
+<td>macro_news</td>
+<td>99,15%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>vốn ngoại fdi vào việt nam đang giảm: có đáng lo? Báo cáo tình hình đầu tư trực tiếp nước  ...</td>
+<td>stock_market</td>
+<td>macro_news</td>
+<td>99,09%</td>
+</tr>
+<tr>
+<td>9</td>
+<td>tỷ giá usd hôm nay 1/8: vietinbank giảm 3 đồng ở giá mua Tỷ giá USD trên thị trường quốc tế  ...</td>
+<td>stock_market</td>
+<td>international_news</td>
+<td>99,01%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>apple toan tính lớn hơn với thị trường việt nam Thông tin về việc Apple sẽ chuyển công đoạn   ...</td>
+<td>stock_market</td>
+<td>macro_news</td>
+<td>98,82%</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Các dự báo sai có khả năng phát hiện những sai lệch về label của dữ liệu ngoài thực tế.</p>
+</blockquote>
+<hr>
+<h2 id="t-c-gi-">Tác giả</h2>
+<p>👤 <strong>Khổng Tiến Đạt</strong></p>
+<ul>
+<li>Zalo: 0944921214</li>
+<li>Linkedin: <a href="https://www.linkedin.com/in/ktd1998/">ktd1998</a></li>
+<li>Github: <a href="https://github.com/datkt1998">datkt1998</a></li>
+</ul>
+<h2 id="log">Log</h2>
+<ul>
+<li>19 May 2023 - Hoàn thành phiên bản 1.0 với việc sử dụng ensemble 3 models bao gồm: <strong>Logistic Regression</strong>, <strong>Support Vector Machine</strong>, <strong>Neural Network Embeddings</strong>.</li>
+</ul>
+</body></html>

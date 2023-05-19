@@ -5,19 +5,21 @@ __Mô tả:__ Project xây dựng mô hình phân loại bài báo theo chủ đ
 ---
 ## 🚀 Cài đặt thư viện
 Thực hiện cài đặt các packages trong `requirements.txt` thông qua cmd:
+
 ```bash
 pip install -r requirements.txt
 ```
 ---
 ## ✨ Demo
 Thực hiện run file `main.py` thông qua cmd:
+
 ```bash
 python main.py
 ```
 Copy link bài báo bất kỳ từ nguồn https://vietnambiz.vn và paste vào tool, sau đó __`Enter`__ để lấy nhãn dự báo. Ngoài ra, trình ghi log sẽ ghi vào file `log_prediction.log`.
 
 <p align="center">
-  <img width="700" align="center" src="outputs/figures/demo.gif" alt="demo"/>
+  <img width="700" align="center" src="https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/demo.gif?raw=true" alt="demo"/>
 </p>
 
 ---
@@ -60,7 +62,7 @@ Các label dự báo bao gồm: _**Stock market**_, _**International news**_, _*
 
 ### Project workflow
 
-![](outputs/figures/Projectworkflow.png)
+![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/Projectworkflow.png?raw=true)
 
 ### Khai phá dữ liệu
 
@@ -70,7 +72,7 @@ Thông tin bộ dữ liệu raw:
 
 Tỷ trọng labels: _balance_
 <p align="center">
-  <img width="350" align="center" src="outputs/figures/check_balance_labels.png" alt="demo"/>
+  <img width="350" align="center" src="https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/check_balance_labels.png?raw=true" alt="demo"/>
 </p>
 
 Phân chia **train**/**test**: tỷ trọng 0.85 / 0.15 _(stratify theo label)_
@@ -80,7 +82,7 @@ Phân chia **train**/**test**: tỷ trọng 0.85 / 0.15 _(stratify theo label)_
 * **Label** được encode theo phương pháp `LabelEncoder` 
 * **Data** là text tiếng việt được chuẩn hoá theo workflow:
 
-![](outputs/figures/preprocessing_workflow.png)
+![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/preprocessing_workflow.png?raw=true)
 
 ### Xây dựng và lựa chọn mô hình
 
@@ -107,7 +109,7 @@ Phân chia **train**/**test**: tỷ trọng 0.85 / 0.15 _(stratify theo label)_
 
 2. **Confusion matrix**
 
-![](outputs/figures/cm.png)
+![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/cm.png?raw=true)
 
 3. **The most wrong predictions**
 
