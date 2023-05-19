@@ -60,7 +60,7 @@ Các label dự báo bao gồm: _**Stock market**_, _**International news**_, _*
 
 ### Project workflow
 
-![](outputs/figures/Project workflow.drawio.png)
+![](outputs/figures/Projectworkflow.png)
 
 ### Khai phá dữ liệu
 
