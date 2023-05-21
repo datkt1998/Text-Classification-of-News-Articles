@@ -63,7 +63,7 @@ Build a model that is able to classify the category of news article through its 
 
 ### Project workflow
 
-![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/9095155bc50394693bd6081f079f604e6e7e4e6a/outputs/figures/Projectworkflow.png?raw=true)
+![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/4907e616d0de4feb564649ce25ba28fb69b74b21/outputs/figures/Projectworkflow.png?raw=true)
 
 ### Explore Data Analysis
 
@@ -83,7 +83,7 @@ Raw-dataset information analysis:
 * **Label** would be encoded by `LabelEncoder` method 
 * **Data** are Vietnamese's text, that would be preprocessing follow:
 
-![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/f0760a02a24586efdf89e4d90150fa858c6c9be9/outputs/figures/preprocessing_workflow.png?raw=true)
+![](https://github.com/datkt1998/Text-Classification-of-News-Articles/blob/4907e616d0de4feb564649ce25ba28fb69b74b21/outputs/figures/preprocessingworkflow.png?raw=true)
 
 ### Modeling and model selection
 
