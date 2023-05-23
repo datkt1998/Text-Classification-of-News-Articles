@@ -17,14 +17,18 @@ def process():
         url = input("Paste a link to a news article or \"Enter\" to end program: ")
         if url == '':
             break
-        title, content = LinkInfo(url).get_link()
-        split_content = content.split(".")
-        title_pred_proba = models.ensemble_predict_proba(title)
-        content_pred_proba = models.ensemble_predict_proba(split_content)
-        pred_prob = ((title_pred_proba[0] + content_pred_proba.mean(axis=0)) / 2)
-        prediction = models.ensemble_pred_classname(pred_prob)
-        print(f"\"{title}\" ---> {prediction}")
-        logger.info(f"{url} | {title} | {prediction}")
+        try:
+            title, content = LinkInfo(url).get_link()
+            split_content = content.split(".")
+            title_pred_proba = models.ensemble_predict_proba(title)
+            content_pred_proba = models.ensemble_predict_proba(split_content)
+            pred_prob = ((title_pred_proba[0] + content_pred_proba.mean(axis=0)) / 2)
+            prediction = models.ensemble_pred_classname(pred_prob)
+            print(f"\"{title}\" ---> {prediction}")
+            logger.info(f"{url} | {title} | {prediction}")
+        except Exception as e:
+            print(e)
+            logger.error(f"{url} | {e} | Error")
         print("_" * 80)
 
 

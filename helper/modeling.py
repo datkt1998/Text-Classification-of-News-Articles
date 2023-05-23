@@ -322,7 +322,7 @@ class Ensemble(BaseModel):
     def ensemble_pred_classname(self, pred_prob):
         pred = pred_prob.argmax()
         pred_class = self.label_encoder.inverse_transform([pred])[0]
-        return pred_class.replace("_", " ").capitalize()
+        return pred_class
 
     def ensemble_predict(self, x):
         pred_prob = self.ensemble_predict_proba(x)

@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 
 import os
 import logging
@@ -9,18 +10,26 @@ class LinkInfo:
 
     def __init__(self, url):
         self.url = url
+        self.domains = ['vietnambiz.vn']
+
+    def verify_link(self):
+        try:
+            domain = urlparse(self.url).netloc
+            if domain in self.domains:
+                return True
+            else:
+                raise ValueError('the domain is not in the pre-defined list')
+        except Exception as e:
+            raise e
 
     def get_link(self):
-        try:
-            r = requests.get(self.url)
-            soup = BeautifulSoup(r.text, "html.parser")
-            title = soup.find_all("title")[0].text.strip()
-            content = soup.find_all('meta', {'id': 'metaDes', 'name': 'description'})[
-                0]['content'].strip()
-            return title, content
-        except Exception as e:
-            print(e)
-            return None, None
+        self.verify_link()
+        r = requests.get(self.url)
+        soup = BeautifulSoup(r.text, "html.parser")
+        title = soup.find_all("title")[0].text.strip()
+        content = soup.find_all('meta', {'id': 'metaDes', 'name': 'description'})[
+            0]['content'].strip()
+        return title, content
 
 
 class Mylog:

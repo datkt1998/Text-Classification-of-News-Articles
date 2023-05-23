@@ -1,2 +1,5 @@
 !**/.gitignore
 **/desktop.ini
+log_prediction.log
+datasets/raw/**
+datasets/preprocessed/**

@@ -4,7 +4,7 @@ __Description:__ A program that can classify news articles (scrope: from https:/
 
 ---
 ## 🚀 Installation
-Install these packages from `requirements.txt` via cmd:
+Install these packages from `requirements.txt` base on `python 3.10.9` via cmd:
 
 ```bash
 pip install -r requirements.txt
