@@ -1,6 +1,6 @@
 # Text Classification of News Articles
 
-__Description:__ A program that can classify news articles (scrope: from https://vietnambiz.vn), receive a link to a news article and return which category it belongs to.
+__Description:__ A program that can classify news articles (scope: from https://vietnambiz.vn), receive a link to a news article and return which category it belongs to.
 
 ---
 ## 🚀 Installation
